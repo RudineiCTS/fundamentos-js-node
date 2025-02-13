@@ -1,28 +1,16 @@
 import http from 'http';
 import { Database } from './database.js';
+import { routes } from './routes.js';
 
-
-const database = new Database();
 const server = http.createServer((req, res)=>{
   const { method, url } = req;
 
-  if(method === 'GET' && url ==='/users'){
-    const users = database.select('users');
-    return res
-     .setHeader('Content-Type', 'application/json')
-     .end(JSON.stringify(users));
-  }
 
-  if(method === 'POST' && url === '/users'){
-    // const { name, email} = req.body
-    const user ={
-      name:'jon doe',
-      email:'jondoe@gmail.com',
-    }
-    database.insert('users',user);
+  const route = routes.find(route => route.method === method && route.path === url);
 
-    return res.writeHead(201).end();
-  }
+  console.log(route);
+
+ 
 
   return res.writeHead(404).end()
 })
