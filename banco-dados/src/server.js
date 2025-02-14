@@ -8,7 +8,9 @@ const server = http.createServer((req, res)=>{
 
   const route = routes.find(route => route.method === method && route.path === url);
 
-  console.log(route);
+  if(route){
+    route.handler(req, res);
+  }
 
  
 

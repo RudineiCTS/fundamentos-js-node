@@ -1,4 +1,5 @@
 import { Database } from './database.js';
+import { buildRoutePath } from './utils/build-route-path.js';
 const database = new Database();
 
 export const routes = [
@@ -18,6 +19,17 @@ export const routes = [
       const user = { name, email };
       database.insert('users', user);
       return res.writeHead(201).end();
+    }
+  },
+  {
+    path: buildRoutePath('/users/:id'),
+    method: 'PUT',
+    handler: (req, res) => {
+      const { id } = req.params;
+      const { name, email } = req.body;
+      const user = { id, name, email };
+      database.update('users', user);
+      return res.writeHead(200).end();
     }
   }
 ]
